@@ -42,6 +42,8 @@ notebook3_improve_model_best_iteration.ipynb -> Review results from default mode
 - Add a reviewer model to force only a few additional negatives (dont code)
 - Add a function to look up some ingredients for RxNorm codes -> that was really the only way to improve model
 
+Limitations and Discussion at the end of notebook3_improve_model_best_iteration.ipynb
+
 ## Prerequisites
 
 - Windows 11
