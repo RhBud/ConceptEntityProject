@@ -1,0 +1,42 @@
+﻿LLM Prompt
+
+
+You are an expert in medical coding logic. given the following json, return a json with the most appropriate medical codes for each concept.
+
+
+{
+"entities": {
+"folfirinox": {
+"types": "medication"
+},
+"bismuth quadruple therapy": {
+"types": "medication"
+},
+"lung cancer": {
+"types": "diagnosis"
+}
+}
+}
+
+
+The allowable code libraries are ICD-10 for diagnoses, ICD-10 category codes for groups of diagnoses, CPT for procedures, LOINC for measurements/labs, and RXnorm for medications, ATC for drug classes.
+Each entity can have more than 1 code if applicable. For example, medication regimens should have a code per element.
+For each code give a 0-100 score of your confidence in the accuracy of the code selected (100 is 100% confident). Do not include codes you are not very confident in. False positives are worse than false negatives.
+
+
+Generate your response in the following format and only return the formatted JSON in the response
+{
+"entities": {
+"[ENTITY_NAME]": {
+"entity_name": "[ENTITY_NAME]",
+"types": "[ENTITY_TYPE]",
+"codes": [
+{
+"code": "[CODE_VALUE]",
+"system": "[CODE_SYSTEM]",
+"description": "[HUMAN_READABLE_DESCRIPTION]",
+"confidence": [0-100]
+}
+]
+}
+}

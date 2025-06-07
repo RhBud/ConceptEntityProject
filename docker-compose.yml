@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  mongodb:
+    profiles: ["local", "local-ext", "cloud"]
+    build:
+      context: ./docker/mongodb
+      dockerfile: Dockerfile
+    ports:
+      - "27018:27017"
+    volumes:
+      - ${USERPROFILE}/DOCKER_DATA/mongodb:/data/db
+      - ${USERPROFILE}/pipeline_datalake:/pipeline_datalake
+    env_file:
+      - ${USERPROFILE}/.docker_pipeline.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - concept-network
+
+  ontology-svc:
+    profiles: ["local", "local-ext", "cloud"]
+    build:
+      context: ./docker/ontology-svc
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${USERPROFILE}/pipeline_datalake:/pipeline_datalake
+    env_file:
+      - ${USERPROFILE}/.docker_pipeline.env
+    depends_on:
+      - mongodb
+    networks:
+      - concept-network
+
+  ollama:
+    profiles: ["local-ext"]
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ${USERPROFILE}/DOCKER_DATA/ollama:/root/.ollama
+      - ${USERPROFILE}/pipeline_datalake:/pipeline_datalake
+    deploy:
+      resources:
+        limits:
+          cpus: '4'  # Number of CPU cores
+          memory: 16G  # Memory limit
+        reservations:
+          cpus: '2'  # Minimum CPU cores
+          memory: 8G  # Minimum memory
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      - OLLAMA_MODELS=/root/.ollama
+      - OLLAMA_HOST=0.0.0.0
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    networks:
+      - concept-network
+    restart: unless-stopped
+
+  miniconda:
+    profiles: ["local", "local-ext"]
+    build:
+      context: ./docker/miniconda
+      dockerfile: Dockerfile
+    ports:
+      - "8888:8888"
+    volumes:
+      - ${USERPROFILE}/pipeline_datalake:/pipeline_datalake
+      - ./notebooks:/app/notebooks
+    env_file:
+      - ${USERPROFILE}/.docker_pipeline.env
+    environment:
+      - JUPYTER_TOKEN=develop
+      - OLLAMA_HOST=http://ollama:11434
+    networks:
+      - concept-network
+    restart: unless-stopped
+
+networks:
+  concept-network:
+    driver: bridge
