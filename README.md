@@ -7,19 +7,20 @@ Your task is to develop a service along with the appropriate evaluations that ca
 accurate clinical definitions given an input containing the concept name (e.g., congestive heart
 failure) and concept type (e.g., diagnosis). The output will eventually need to be integrated back
 into the CDL and ChatRWD.
+
 Detailed Requirements:
 1. Select an appropriate technology stack that you are familiar with to develop the service
-and develop a system diagram outlining the stack; be prepared to to describe your
-choice(s)
+   and develop a system diagram outlining the stack; be prepared to to describe your
+   choice(s)
 2. Connect the application to one or more LLMs using industry standard methods (or be
-ready to explain why you chose to deviate from those standards)
-3. Develop an appropriate evaluation approach to identify errors and improve the prompt’s
-performance in generating accurate clinical definitions. Please show the results of your
-evaluation and what you changed as a result.
-4. Author a “final” version of the prompt that performs the task more accurately than the
-original (ideally with quantitative justification)
+   ready to explain why you chose to deviate from those standards)
+3. Develop an appropriate evaluation approach to identify errors and improve the prompt's
+   performance in generating accurate clinical definitions. Please show the results of your
+   evaluation and what you changed as a result.
+4. Author a "final" version of the prompt that performs the task more accurately than the
+   original (ideally with quantitative justification)
 5. List the limitations of your implementation and/or discussion topics regarding how to
-make the service more robust for the future
+   make the service more robust for the future
 
 
 This application consists of multiple Docker services:
@@ -28,10 +29,14 @@ This application consists of multiple Docker services:
 - Miniconda: Jupyter notebook environment
 
 
-The Analysis is stored in the notebooks folder in order
+The Analysis is stored in the notebooks folder in order:
+
 notebook0_load_mongo.ipynb -> basic code from other work to load MRCONSO table into the mongo service database for use
+
 notebook1_eda_annotate.ipynb -> Just a quick look at the codes. I outline my strategy and perform the manual annotation for the project
+
 notebook2_default_model.ipynb -> Define/justify labeling approach and rules, and evaluation metrics. Run and evaluate the model with OpenAPI gpt-4-turbo. Not good performance
+
 notebook3_improve_model_best_iteration.ipynb -> Review results from default model and refine prompt and LLM strategy
 - One term at a time
 - Add a reviewer model to force only a few additional negatives (dont code)
