@@ -46,11 +46,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4'  # Number of CPU cores
-          memory: 16G  # Memory limit
+          cpus: '4' 
+          memory: 16G  
         reservations:
-          cpus: '2'  # Minimum CPU cores
-          memory: 8G  # Minimum memory
+          cpus: '2' 
+          memory: 8G 
           devices:
             - driver: nvidia
               count: all
