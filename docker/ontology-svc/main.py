@@ -10,7 +10,7 @@ MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
 client = AsyncIOMotorClient(MONGODB_URL)
 db = client.pipeline_db
 
-@app.get("/health")
+@app.get("/health/{client_name}/{config_name}/{environment}/{process}")
 async def health_check():
     """Health check endpoint"""
     try:
