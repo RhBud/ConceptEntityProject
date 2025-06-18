@@ -1,8 +1,35 @@
+# FastAPI and web framework
 fastapi==0.109.2
 uvicorn==0.27.1
+
+# MongoDB drivers
 motor==3.3.2
 pymongo==4.6.1
+
+# Data validation
 pydantic==2.6.1
+
+# Environment variables
 python-dotenv==1.0.1
-requests==2.31.0 
-openpyxl
+
+# HTTP requests
+requests==2.31.0
+
+# Data processing (imported in entity.py)
+pandas==2.3.0
+numpy==1.26.4
+
+# OpenAI client (used for LLM calls)
+openai==1.88.0
+
+# Testing
+pytest==7.4.4
+
+# Regular expressions (used in strip_markdown_fences)
+# re is built-in, no need to install
+
+# JSON processing (used throughout)
+# json is built-in, no need to install
+
+# OS utilities (used for environment variables)
+# os is built-in, no need to install
