@@ -10,7 +10,7 @@ from app.models.schemas import EntityRequest, EntityResponse
 
 router = APIRouter()
 
-# MongoDB connection
+# MongoDB connection for health check
 MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
 client = AsyncIOMotorClient(MONGODB_URL)
 db = client.pipeline_db
@@ -69,16 +69,4 @@ async def health_check():
         await db.command("ping")
         return {"status": "healthy", "mongodb": "connected"}
     except Exception as e:
-        raise HTTPException(status_code=503, detail=str(e))
-
-@router.get("/entityDefinition")
-async def get_data():
-    """
-    Retrieve processed data from MongoDB.
-    """
-    try:
-        cursor = db.processed_data.find()
-        data = await cursor.to_list(length=None)
-        return {"data": data}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) 
+        raise HTTPException(status_code=503, detail=str(e)) 
